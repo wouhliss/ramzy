@@ -6,7 +6,7 @@ app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.text());
 
-const port = 3000;
+const port = 3001;
 
 const prisma = new PrismaClient();
 
