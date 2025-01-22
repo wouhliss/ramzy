@@ -20,6 +20,29 @@ app.get("/getRequests", async (req: Request, res: Response) => {
     res.send(requests);
 });
 
+app.get("/getRequestById/:id", async (req: Request, res: Response) => {
+    if (isNaN(parseInt(req.params.id))) {
+        res.send("Invalid id");
+        return;
+    }
+
+    const request = await prisma.request.findUnique({
+        where: {
+            id: parseInt(req.params.id)
+        },
+        include: {
+            headers: true
+        }
+    });
+
+    if (!request) {
+        res.send("Request with this id does not exist");
+        return;
+    }
+
+    res.send(request);
+});
+
 app.get("*", async (req: Request, res: Response) => {
 
     const request = await prisma.request.create({
